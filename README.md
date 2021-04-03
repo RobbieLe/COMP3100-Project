@@ -6,6 +6,5 @@ unit convenor’s approval). - Taken straight from Project Specfications
 # Members:
 - StudentID | Student Name | GitHub Username
 
-- 'ID' | Ryan Destura | Ryan-Destura
-- 43603467 | Joshua Brookes | Br00xx
+- 43603467 | Joshua Brookes     | Br00xx
 - 45948852 | Robinson Le 		| RobbieLe
