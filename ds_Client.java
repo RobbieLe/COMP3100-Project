@@ -10,7 +10,7 @@ public class ds_Client {
 		DataOutputStream dout = new DataOutputStream(s.getOutputStream());
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		ArrayList<String> Servers = new ArrayList<String>;
+		ArrayList<String> Servers = new ArrayList<String>();
 		
 		String str="", str2="";
 		
