@@ -10,7 +10,7 @@ public class ds_Client {
         DataOutputStream dout = new DataOutputStream(s.getOutputStream());
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        ArrayList<String> serverList = new ArrayList<String>();     //Holds the list of the servers existing
+        ArrayList<String[]> serverList = new ArrayList<String[]>();     //Holds the list of the servers existing
 
         String inString = "", outString = "";   //outString (output to server) inString (input to client)
         String state = "";  //state (used to show where in the communication stack, the process is)
@@ -82,26 +82,52 @@ public class ds_Client {
         return serverCount;     //The number of servers existing
     }
 
-    private static void readSystemList(String inString, ArrayList<String> serverList, BufferedReader socketIn, int serverCount) throws IOException {
+    //  (joon           0       active      97          1           15300   60200   0               1) 
+    //  (Server-type    ID      State       Start-time  Core-count  Memory  Disk    Waiting-jobs    Running-jobs)
+    private static void readSystemList(String inString, ArrayList<String[]> serverList, BufferedReader socketIn, int serverCount) throws IOException {
+        String[] temp;
         for (int i = 0; i < serverCount; i++) {     //Looping with result from getServerCount() as limit
             if (i != 0) {       //Ensure we are not reading with the initial loop to prevent skipping records of the server list, since we have already read it with the outer while loop
                 inString = socketIn.readLine();     //Read the server record and store into this String
             }
-            serverList.add(inString);       //Adding the server record into the arrayList for future processing (getting the largest server)
+            temp = inString.split(" ");
+            serverList.add(temp);       //Adding the server record into the arrayList for future processing (getting the largest server)         
         }
     }
 
-    //Closing the connections with the server
+    //  Closing the connections with the server
     private static void quitCommunication(DataInputStream din, DataOutputStream dout, Socket s) throws IOException {
         din.close();
         dout.close();
         s.close();
     }
 
-    //To be completed, return the server with the largest core count 
+    //  Return the server with the largest core count 
     //  (joon           0       active      97          1           15300   60200   0               1) 
     //  (Server-type    ID      State       Start-time  Core-count  Memory  Disk    Waiting-jobs    Running-jobs)
-    private static String getLargestServer() {
-        return null;        //We want to return the Server-type and ID
+    private static String getLargestServer(ArrayList<String[]> serverList) {
+        String largestServer[] = serverList.get(0);
+        String test[];
+        String[] server;
+
+        for (int i = 0; i < serverList.size() -1; i++) {
+            test = serverList.get(i+1);
+            if (Integer.parseInt(largestServer[4]) < Integer.parseInt(test[4])) {
+                largestServer = serverList.get(i+1);
+            }
+        }
+        server = largestServer;
+        return server[0] + " " + server[1];        //We want to return the Server-type and ID
+    }
+
+    //  Return the Job ID from JOBN message
+    //  (JOBN    172         4       320         2       50      120)
+    //  (JOBN    submitTime  jobID   estRuntime  core    memory  disk)
+    private static String getJobID(String jobString) {
+        String jobID = "";
+        String[] unparsedString = jobString.split(" ");      //Getting the words in the inString whilst ignore spaces to add into the array
+
+        jobID = unparsedString[2];
+        return jobID;   //return the 3rd word of the JOBN message, should be the JOBID
     }
 }
