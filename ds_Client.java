@@ -1,7 +1,7 @@
 /*
 COMP3100
 	Joshua Brooks	43603467
-	Robinson Le		45948852
+	Robinson Le	45948852
 */
 
 import java.net.Socket;
