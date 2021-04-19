@@ -180,16 +180,15 @@ public class ds_Client {
     private static String getLargestServer(ArrayList<String[]> serverList) {
         String largestServer[] = serverList.get(0);
         String test[];
-        String[] server;
 
         for (int i = 0; i < serverList.size() -1; i++) {
             test = serverList.get(i+1);
             if (Integer.parseInt(largestServer[4]) < Integer.parseInt(test[4])) {
-                largestServer = serverList.get(i+1);
+                largestServer = test;
             }
         }
-        server = largestServer;
-        return server[0] + " " + server[1];        //We want to return the Server-type and ID
+		
+        return largestServer[0] + " " + largestServer[1];        //We want to return the Server-type and ID
     }
 
     //  Return the Job ID from JOBN message
