@@ -121,7 +121,7 @@ public class ds_Client {
                                                             //  Message also contains the newline character need to talk with ds-server
         }
         
-        if (state == "QUIT") {      //Finished with while loop, proceeding with closing connection with server
+        if (state.equals("QUIT")) {      //Finished with while loop, proceeding with closing connection with server
             quitCommunication(din, dout, s);    //Close connection to finish the communication
         }
     }
